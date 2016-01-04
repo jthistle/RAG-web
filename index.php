@@ -8,7 +8,7 @@
 
 <body>
   <h1>/r/RandomActsOfGaming giveaway decider</h1>
-  <form method="POST" action='phappertest.php'>
+  <form method="POST" action='index.php'>
     <label>Enter the bit after /comments/ in the URL of your giveaway: <input name='submissionID' type='text' value='<?php strip_tags($_POST["submissionID"]); ?>' /></label><br />
     <label>Enter the upper bound of your random number: <input name='upperBound' type='text' value='<?php strip_tags($_POST["upperBound"]); ?>' /></label>
     <p></p><input type='submit' name='getWinner' value='Choose a winner!' />
