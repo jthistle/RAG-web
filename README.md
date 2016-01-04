@@ -1,5 +1,6 @@
 # RAG-web
 An online giveaway decider for /r/RandomActsOfGaming
+
 Visit it at: http://jamesthistlewood.co.uk/rag
 
 ## Files included
