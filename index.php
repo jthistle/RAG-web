@@ -10,7 +10,7 @@
   <h1>/r/RandomActsOfGaming giveaway decider</h1>
   <form method="POST" action='index.php'>
     <label>Enter the bit after /comments/ in the URL of your giveaway: <input name='submissionID' type='text' value='<?php strip_tags($_POST["submissionID"]); ?>' /></label><br />
-    <label>Enter the upper bound of your random number: <input name='upperBound' type='text' value='<?php strip_tags($_POST["upperBound"]); ?>' /></label>
+    <label>Enter the upper bound of your random number (leave blank to choose random comment): <input name='upperBound' type='text' value='<?php strip_tags($_POST["upperBound"]); ?>' /></label>
     <p></p><input type='submit' name='getWinner' value='Choose a winner!' />
   </form>
   <?php
@@ -63,7 +63,16 @@
         echo "<p><a href='https://www.reddit.com/message/compose/?to=$closestUsername' target='_blank'>Tell them about it now!</a></p>";
         
         echo "<br />Reload the page to get another winner!<br />There are $commentCount comments total (if this doesn't match with the reddit comment count, it means some comments have been deleted).";
-      }
+      } else if ($_POST['upperbound'] == ""){
+		$randNum = rand(0,count($comments[1]["data"]["children"])-1);
+		$bodyText = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["body_html"]));
+		$author = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["author"]));
+        echo "<p>The chosen person was /u/$author with this text: </p>";
+        
+        echo "<p class='quote'>\"$bodyText\"</p>";
+        
+        echo "<p><a href='https://www.reddit.com/message/compose/?to=$author' target='_blank'>Tell them about it now!</a></p>";
+	  }
     }
   ?>
   
