@@ -41,38 +41,54 @@
           $commentsParsed[] = [strip_tags(html_entity_decode($comments[1]["data"]["children"][$i]["data"]["body_html"])), $comments[1]["data"]["children"][$i]["data"]["author"], $number];
           // ["text", "author", "number"]
         }
-        $closestProximity = $upperBound*2;
-        $closestUsername = "";
-        $closestCommentText = "";
+		    $winners = []; // prox, username, body text
         foreach ($commentsParsed as $comment){
           //echo("checking comment: ".$comment[0].", prox = ".abs($comment[2] - $randNumber).)
-          if (abs($comment[2] - $randNumber) < $closestProximity){
-            $closestProximity = abs($comment[2] - $randNumber);
-            $closestUsername = $comment[1];
-            $closestCommentText = $comment[0];
+          if (count($winners) == 0){
+            $winners[] = [abs($comment[2] - $randNumber), $comment[1], $comment[0]]; // no winners yet, add first one
+          } else{
+            if (abs($comment[2] - $randNumber) < $winners[0][0]){ // more of a winner?
+              $winners = []; // clear current list
+              $winners[] = [abs($comment[2] - $randNumber), $comment[1], $comment[0]]; // add to new list
+            } else if (abs($comment[2] - $randNumber) == $winners[0][0]){
+              $winners[] = [abs($comment[2] - $randNumber), $comment[1], $comment[0]]; // add to current winners list
+            }
           }
         }
         $commentCount = count($comments[1]["data"]["children"]);
         
+        if (count($winners) > 1){
+          $winner = $winners[array_rand($winners)];
+          //echo "<p>".json_encode($winner)."</p>";
+          $winnerUname = $winner[1];
+          $winnerBody = $winner[2];
+          $hadToDecide = true;
+        } else{
+          $winnerUname = $winners[0][1];
+          $winnerBody = $winners[0][2];
+        }
+        
         echo "<p>The number is $randNumber</p>";
         
-        echo "<p>The closest person was /u/$closestUsername with this text: </p>";
+        if ($hadToDecide) echo "<p>".count($winners)." people were the same proximity to the number, so one was randomly chosen</p>";
         
-        echo "<p class='quote'>\"$closestCommentText\"</p>";
+        echo "<p>The closest person was /u/$winnerUname with this text: </p>";
         
-        echo "<p><a href='https://www.reddit.com/message/compose/?to=$closestUsername' target='_blank'>Tell them about it now!</a></p>";
+        echo "<p class='quote'>\"$winnerBody\"</p>";
+        
+        echo "<p><a href='https://www.reddit.com/message/compose/?to=$winnerUname' target='_blank'>Tell them about it now!</a></p>";
         
         echo "<br />Reload the page to get another winner!<br />There are $commentCount comments total (if this doesn't match with the reddit comment count, it means some comments have been deleted).";
       } else if ($_POST['upperbound'] == ""){
-		$randNum = rand(0,count($comments[1]["data"]["children"])-1);
-		$bodyText = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["body_html"]));
-		$author = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["author"]));
+        $randNum = rand(0,count($comments[1]["data"]["children"])-1);
+        $bodyText = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["body_html"]));
+        $author = strip_tags(html_entity_decode($comments[1]["data"]["children"][$randNum]["data"]["author"]));
         echo "<p>The chosen person was /u/$author with this text: </p>";
         
         echo "<p class='quote'>\"$bodyText\"</p>";
         
         echo "<p><a href='https://www.reddit.com/message/compose/?to=$author' target='_blank'>Tell them about it now!</a></p>";
-	  }
+	    }
     }
   ?>
   
