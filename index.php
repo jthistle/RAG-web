@@ -9,7 +9,7 @@
 <body>
   <h1>/r/RandomActsOfGaming giveaway decider</h1>
   <form method="POST" action='index.php'>
-    <label>Enter the bit after /comments/ in the URL of your giveaway, e.g. 3ab4cd: <input name='submissionID' type='text' value='<?php echo strip_tags($_POST["submissionID"]); ?>' /></label><br />
+    <label>Enter the bit after /comments/ in the URL of your giveaway, e.g. 3ab4cd: <input name='submissionID' type='text' value='<?php echo strip_tags($_POST["submissionID"]); ?>' placeholder="e.g. 3ab4cd" /></label><br />
     <label>Enter the upper bound of your random number (leave blank to choose random comment): <input name='upperBound' type='text' value='<?php echo strip_tags($_POST["upperBound"]); ?>' /></label><br />
     <label>Enter text required in comment (leave blank to accept any text): <input name='textToFind' type='text' value='<?php echo strip_tags($_POST["textToFind"]); ?>' /></label>
     <p></p><input type='submit' name='getWinner' value='Choose a winner!' />
