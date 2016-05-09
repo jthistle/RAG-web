@@ -129,7 +129,10 @@
 	    }
     }
   ?>
-  
+  <p><br /></p>
+  <hr />
+  <p style="font-size: 8pt; color: grey;">This tool is completely open source - <a href="http://github.com/jthistle/rag-web/">find the code here</a></p>
+  <p style="font-size: 8pt; color: grey;">Enjoy using this tool? Please leave a link to it in your giveaway - it really helps others looking for something like it!</p>
   <!-- Start of StatCounter Code for Default Guide -->
   <script type="text/javascript">
     //<![CDATA[
